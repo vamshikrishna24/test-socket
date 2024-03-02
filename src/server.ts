@@ -1,8 +1,14 @@
 import express from "express";
 import http from "http";
 import { Server } from "socket.io";
+import { config } from "dotenv";
+import cors from "cors";
+
+config();
 
 const app = express();
+app.use(cors());
+
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
@@ -22,6 +28,7 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(8000, () => {
-  console.log("listening on *:3000");
+const PORT = process.env.PORT || 8000;
+server.listen(PORT, () => {
+  console.log(`listening on ${PORT}`);
 });
